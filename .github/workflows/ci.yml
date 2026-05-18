@@ -1,0 +1,24 @@
+name: CI
+
+# Reuses the shared Rust pipeline. Same shape as
+# `ippoan/github-mcp-server-rs/.github/workflows/ci.yml`:
+# rustfmt + clippy + cargo test + cargo build --release + `--help` smoke
+# test, with sccache + Swatinem/rust-cache sharing a `shared_key` so
+# release.yml (when we add it) reuses the same cache.
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ippoan/ci-workflows/.github/workflows/rust-ci.yml@main
+    with:
+      binary_name: ref-files-mcp-server-rs
+      shared_key: ref-files-mcp-server-rs
