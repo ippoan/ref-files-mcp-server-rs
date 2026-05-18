@@ -9,11 +9,24 @@
 //! `ts-rs`'s `export_to = "ts-bindings/"` attribute on each struct controls
 //! the destination directory; this bin just calls `T::export()` for every
 //! type so the writes actually happen.
+//!
+//! ts-rs prefixes `export_to` with `bindings/` by default, so the natural
+//! output would be `bindings/ts-bindings/`. We force the prefix to `./` via
+//! `TS_RS_EXPORT_DIR` if the env var isn't already set, which lands every
+//! `.ts` file directly under `./ts-bindings/`. The worker's
+//! `sync-types.yml` relies on that exact path.
 
 use ref_files_mcp_server_rs::types::*;
 use ts_rs::TS;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Override ts-rs's default `bindings/` prefix unless the caller already
+    // set one. Safe to mutate before the first export() call.
+    if std::env::var_os("TS_RS_EXPORT_DIR").is_none() {
+        // SAFETY: single-threaded main, no other thread can observe env yet.
+        unsafe { std::env::set_var("TS_RS_EXPORT_DIR", "."); }
+    }
+
     // Repo
     Repo::export()?;
     RepoInitArgs::export()?;

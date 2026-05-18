@@ -5,8 +5,8 @@
 //! HTTP transport on 127.0.0.1, auth-worker WS relay client) lands in
 //! Phase 1, mirroring `github-mcp-server-rs/src/mcp_server.rs`.
 //!
-//! Keeping this stub buildable lets `rust-ci.yml` (`cargo build --release`
-//! + `--help` smoke test) pass on the very first PR, so the CI plumbing is
+//! Keeping this stub buildable lets `rust-ci.yml` pass on the very first PR
+//! (`cargo build --release` + `--help` smoke test), so the CI plumbing is
 //! exercised before any real tool code lands.
 
 use clap::Parser;
