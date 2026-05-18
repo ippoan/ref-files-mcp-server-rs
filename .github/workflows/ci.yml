@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # tag push (v*) は release.yml が build + release を兼ねるので CI 再走させない
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  ci:
+    uses: ippoan/ci-workflows/.github/workflows/rust-ci.yml@main
+    with:
+      binary_name: ref-files-mcp-server-rs
+      shared_key: ref-files-mcp-server-rs
+
+  auto-merge:
+    name: Auto Merge
+    needs: [ci]
+    if: >-
+      always() &&
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.draft == false &&
+      needs.ci.result == 'success'
+    uses: ippoan/ci-workflows/.github/workflows/auto-merge.yml@main
+    permissions:
+      contents: write
+      pull-requests: write
