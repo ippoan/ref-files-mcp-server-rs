@@ -24,7 +24,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // set one. Safe to mutate before the first export() call.
     if std::env::var_os("TS_RS_EXPORT_DIR").is_none() {
         // SAFETY: single-threaded main, no other thread can observe env yet.
-        unsafe { std::env::set_var("TS_RS_EXPORT_DIR", "."); }
+        unsafe {
+            std::env::set_var("TS_RS_EXPORT_DIR", ".");
+        }
     }
 
     // Repo
