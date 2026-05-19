@@ -6,7 +6,34 @@ Architecture mirrors [`github-mcp-server-rs`](https://github.com/ippoan/github-m
 
 - Local Rust binary speaks **rmcp Streamable HTTP** on `127.0.0.1`.
 - All persistence is delegated to `ref-files-worker`; this binary holds no state.
-- Phase 2 will add a `relay` bin that bridges to `auth-worker` over WS so remote MCP clients (Claude Code Web) can reach it via `mcp(-staging).ippoan.org`.
+- **Phase 2** (issue #4): subcommand 構造に再編し、auth-worker device flow / 1-click pair / outbound WS relay を `ippoan/mcp-relay-rs` 共有 crate 経由で実装。Claude Code Web からは `https://mcp(-staging).ippoan.org/u/<login>/mcp` 経由で本 binary が公開する MCP tools (repo/folder/file/revision) にアクセス可能。
+
+## Subcommands (Phase 2)
+
+| 用途 | コマンド |
+|---|---|
+| Local dev (Phase 1 互換、127.0.0.1 直接 bind) | `ref-files-mcp-server-rs serve --jwt $JWT --bind 127.0.0.1:7457` |
+| CCoW 上で 1-click pair | `bash .claude/hooks/install-mcp.sh` (browser で pair_url を click) |
+| Device flow (CLI / local dev) | `ref-files-mcp-server-rs auth` → `relay --user <login>` |
+| Token 確認 | `ref-files-mcp-server-rs whoami` |
+| 設定確認 | `ref-files-mcp-server-rs doctor` |
+
+## Consumer 側 (downstream repo の `.claude/hooks/session-start.sh`)
+
+`ippoan` org 以外の repo でも本 MCP server を引き込みたい場合、`session-start.sh`
+に下記スニペットを追加すれば main 上の最新 `install-mcp.sh` を都度 fetch して動かせる:
+
+```bash
+# Pull ref-files-mcp-server-rs install hook from main and run.
+# REF_FILES_MCP_PIN_TAG=v0.0.x で特定 release に pin 可能。
+if [ -n "${GITHUB_LOGIN:-}" ]; then
+  curl -fsSL \
+    https://raw.githubusercontent.com/ippoan/ref-files-mcp-server-rs/main/.claude/hooks/install-mcp.sh \
+    | bash
+fi
+```
+
+`GITHUB_LOGIN` は CCoW Settings → Environment variables に登録する。
 
 ## Layout
 
