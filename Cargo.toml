@@ -24,13 +24,19 @@ path = "src/bin/gen-ts.rs"
 path = "src/lib.rs"
 
 [dependencies]
+# Phase 2 (issue #4): auth-worker device flow / 1-click pair / WS relay は
+# ippoan/mcp-relay-rs に分離した共通 crate を git dep として参照する。
+# `tag = "v0.0.1"` は upstream tag push 後に切替予定。
+mcp-relay = { git = "https://github.com/ippoan/mcp-relay-rs.git", branch = "claude/test-ref-files-mcp-A7YVq" }
+
 # CLI / runtime
 clap = { version = "4", features = ["derive", "env"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "signal"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "signal", "sync"] }
 anyhow = "1"
 thiserror = "1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+chrono = { version = "0.4", features = ["serde"] }
 
 # HTTP client to ref-files-worker (D1/R2 facade).
 reqwest = { version = "0.12", default-features = false, features = ["rustls-tls-native-roots", "json", "stream"] }
