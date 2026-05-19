@@ -5,10 +5,11 @@
 //! (name, parent folder, current revision) and `revisions` holds the history.
 //! Deletes are soft (`deleted_at`) so history-walks still succeed.
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct File {
@@ -33,7 +34,7 @@ pub struct File {
     pub deleted_at: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FilePutArgs {
@@ -50,7 +51,7 @@ pub struct FilePutArgs {
     pub message: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileGetArgs {
@@ -61,7 +62,7 @@ pub struct FileGetArgs {
     pub revision: Option<u32>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileGetResponse {
@@ -70,7 +71,7 @@ pub struct FileGetResponse {
     pub content_base64: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileHistoryArgs {
@@ -81,7 +82,7 @@ pub struct FileHistoryArgs {
     pub limit: Option<u32>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileMoveArgs {
@@ -90,7 +91,7 @@ pub struct FileMoveArgs {
     pub to_path: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileDeleteArgs {
@@ -98,7 +99,7 @@ pub struct FileDeleteArgs {
     pub path: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileSearchArgs {
@@ -117,7 +118,7 @@ pub struct FileSearchArgs {
     pub limit: Option<u32>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FileSearchResult {

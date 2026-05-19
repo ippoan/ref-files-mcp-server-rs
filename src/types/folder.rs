@@ -4,10 +4,11 @@
 //! POSIX-style "/a/b/c", root = ""). `path` is the lookup key used by
 //! `folder_list` / `file_put`; the worker keeps it in sync on rename + move.
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct Folder {
@@ -22,7 +23,7 @@ pub struct Folder {
     pub created_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FolderCreateArgs {
@@ -31,7 +32,7 @@ pub struct FolderCreateArgs {
     pub path: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FolderListArgs {
@@ -45,7 +46,7 @@ pub struct FolderListArgs {
 }
 
 /// Response shape for `folder_list` — folders + files at (or under) `path`.
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct FolderListing {
