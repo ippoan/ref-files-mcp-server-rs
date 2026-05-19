@@ -8,7 +8,10 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
+    # Phase 2 (issue #4): `dev-*` も受ける。`-` 入り tag は rust-binary-release
+    # reusable 側で auto prerelease 扱いとなり `releases/latest` には出ないので
+    # stable consumer は影響を受けない。
+    tags: ["v*", "dev-*"]
 
 permissions:
   contents: write

@@ -1,0 +1,34 @@
+name: Dev Release
+
+# main 上の binary 関連変更を自動で `dev-N` タグとして打ち、release.yml に release
+# build + asset upload を委譲する。`/tag-release patch` を毎回手動で叩かなくて済む。
+#
+# 採番は `ippoan/ci-workflows/dev-tag-release.yml` reusable (counter モード) に
+# 委譲: 既存 `dev-*` タグの max N+1 を push する。同一 HEAD への再発火は skip。
+#
+# release.yml は `on: push: tags: ["v*"]` のみだが、dev-* も asset attach したい
+# 場合は release.yml の trigger に `"dev-*"` を足す (rust-binary-release reusable
+# 側で `-` 入り tag が auto prerelease 扱いになるので stable channel には影響無し)。
+#
+# install-mcp.sh から dev チャネルを選ぶには `REF_FILES_MCP_CHANNEL=dev` を設定する。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'build.rs'
+      - '.github/workflows/dev-release.yml'
+      - '.github/workflows/release.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  dev-release:
+    uses: ippoan/ci-workflows/.github/workflows/dev-tag-release.yml@main
+    secrets:
+      TAG_RELEASE_PAT: ${{ secrets.TAG_RELEASE_PAT }}
