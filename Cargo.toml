@@ -26,8 +26,8 @@ path = "src/lib.rs"
 [dependencies]
 # Phase 2 (issue #4): auth-worker device flow / 1-click pair / WS relay は
 # ippoan/mcp-relay-rs に分離した共通 crate を git dep として参照する。
-# `tag = "v0.0.1"` は upstream tag push 後に切替予定。
-mcp-relay = { git = "https://github.com/ippoan/mcp-relay-rs.git", branch = "claude/test-ref-files-mcp-A7YVq" }
+# `dev-N` channel pin で main HEAD を追従。stable リリース時に `v0.0.X` に昇格。
+mcp-relay = { git = "https://github.com/ippoan/mcp-relay-rs.git", tag = "dev-1" }
 
 # CLI / runtime
 clap = { version = "4", features = ["derive", "env"] }
