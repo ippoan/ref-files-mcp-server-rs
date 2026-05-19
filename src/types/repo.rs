@@ -4,10 +4,11 @@
 //! that auth-worker resolved from the MCP JWT; the worker never trusts a
 //! `owner_login` value sent from the client.
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct Repo {
@@ -24,7 +25,7 @@ pub struct Repo {
 ///
 /// Idempotent: if a repo with the same `(owner_login, name)` already exists,
 /// the worker returns the existing row instead of erroring.
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct RepoInitArgs {

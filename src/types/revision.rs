@@ -5,10 +5,11 @@
 //! flip `files.deleted_at`, leaving the revision chain intact for
 //! `file_history` walks.
 
+use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct Revision {
@@ -28,7 +29,7 @@ pub struct Revision {
     pub created_at: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[derive(Debug, Clone, Serialize, Deserialize, TS, JsonSchema)]
 #[ts(export, export_to = "ts-bindings/")]
 #[serde(rename_all = "snake_case")]
 pub struct RevisionList {
