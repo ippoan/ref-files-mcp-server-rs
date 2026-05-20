@@ -1,3 +1,5 @@
+> ⚠️ **このリポジトリは [ippoan/mcp-relay-rs](https://github.com/ippoan/mcp-relay-rs) に統合済 (Phase 4 / 2026-05-20)**。新規 issue / PR は monorepo 側へ。既存 release artifact (v0.0.X / dev-N) は互換性のため残置。
+
 # ref-files-mcp-server-rs
 
 Reference file storage MCP server. Pairs with [`ref-files-worker`](https://github.com/ippoan/ref-files-worker) (Cloudflare Worker: D1 + R2) to expose a repo / folder / file / revision API as MCP tools.
